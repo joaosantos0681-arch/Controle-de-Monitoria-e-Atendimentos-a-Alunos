@@ -58,6 +58,13 @@ def atualizacao_assunto(matricula, data, duvida):
         print('\nRegistro não encontrado. Verifique a matrícula e a data.')
 
 def remocao_atendimento(matricula, data):
+    matricula = matricula.strip()
+    data = data.strip()
+
+    if not matricula or not data:
+        print('\nInforme a matrícula e a data para remover o atendimento.')
+        return
+
     with open('cadastro.txt', 'r', encoding='utf-8') as arquivo:
         linhas = arquivo.readlines()
     lista_atendimentos = []
@@ -65,7 +72,10 @@ def remocao_atendimento(matricula, data):
     i = 0
     while i < len(linhas):
         if i+3 < len(linhas):
-            if not (f'Matrícula do aluno: {matricula}' in linhas[i] and f'Data do atendimento: {data}' in linhas[i+3]):
+            if not (
+                linhas[i] == f'Matrícula do aluno: {matricula}\n'
+                and linhas[i+3] == f'Data do atendimento: {data}\n'
+            ):
                 lista_atendimentos.extend(linhas[i:i+5])
             else:
                 removido = True
